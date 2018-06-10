@@ -1,0 +1,23 @@
+{
+	"name": "better-menus",
+	"description": "Plugin saves WordPress Menu data in custom database tables for more performant queries.",
+	"type": "wordpress-plugin",
+	"keywords": [],
+	"homepage": "https://github.com/mrbobbybryant/better-menus",
+	"license": "GPL-2.0+",
+	"author": {
+		"name": "Bobby Bryant",
+		"email": "bobby@developwithwp.com",
+		"homepage": "Bobby Bryant",
+		"role": "Developer"
+	},
+  "minimum-stability": "dev",
+	"repositories" : [
+		{
+			"type" : "composer",
+			"url"  : "https://wpackagist.org"
+		}
+	],
+	"require": {},
+    "require-dev": {}
+}
