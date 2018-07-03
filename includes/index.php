@@ -170,8 +170,9 @@ function delete_better_menu_item($post_id) {
 }
 
 function add_item_to_better_menu( $post_id, $tt_id ) {
-	$better_menus = new Better_Menus();
-	$menu_id      = $better_menus->get_menu_by_wp_id( intval( $tt_id ) );
+	$better_menus      = new Better_Menus();
+	$better_menu_items = new Better_Menu_Items();
+	$menu_id           = $better_menus->get_menu_by_wp_id( intval( $tt_id ) );
 
 	if ( $menu_id ) {
 		$better_menu_items->update_better_menu_item( $post_id, [ 'menu_id' => intval( $menu_id->id ) ] );
