@@ -25,7 +25,7 @@ if ( ! defined( 'BETTER_MENUS_FILE' ) ) {
 }
 
 if ( ! defined( 'BETTER_MENUS_VERSION' ) ) {
-	define( 'BETTER_MENUS_VERSION', '1.0.0' );
+	define( 'BETTER_MENUS_VERSION', '1.0.1' );
 }
 
 require_once 'includes/index.php';

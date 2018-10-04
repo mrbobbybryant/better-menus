@@ -102,14 +102,13 @@ function update_better_menus_location( $value, $old_value ) {
 	 * Add new menu locations.
 	 */
 	foreach ( $value as $name => $menu_id ) {
-		$menu = array_filter( $better_menus, function( $better_menu ) use ( $menu_id ) {
+		$menu = array_values( array_filter( $better_menus, function( $better_menu ) use ( $menu_id ) {
 			return intval( $better_menu->menu_id ) === $menu_id;
-		} );
+		} ) );
 
 		if ( ! empty( $menu ) ) {
 			$b_menus->update( intval( $menu[0]->id ), [ 'location' => $name ] );
 		}
-
 	}
 
 	return $value;
