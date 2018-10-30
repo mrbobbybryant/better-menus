@@ -3,7 +3,7 @@
  * Plugin Name:  Better WordPress Menus
  * Plugin URI:   https://github.com/mrbobbybryant/better-menus
  * Description:  Plugin saves WordPress Menu data in custom database tables for more performant queries.
- * Version:      1.0.0
+ * Version:      1.0.2
  * Author:       Bobby Bryant
  * Author URI:   https://github.com/mrbobbybryant
  * License:      GPL2
@@ -25,7 +25,7 @@ if ( ! defined( 'BETTER_MENUS_FILE' ) ) {
 }
 
 if ( ! defined( 'BETTER_MENUS_VERSION' ) ) {
-	define( 'BETTER_MENUS_VERSION', '1.0.1' );
+	define( 'BETTER_MENUS_VERSION', '1.0.2' );
 }
 
 require_once 'includes/index.php';

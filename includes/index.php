@@ -120,7 +120,7 @@ function create_better_menu_item( $post_id, $post, $update ) {
 	}
 
 	if ( $update ) {
-		return false;
+		return update_better_menu_item( $post_id, $post );
 	}
 
 	$menu_data = array_values( $_POST['menu-item'] );
