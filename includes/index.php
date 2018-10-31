@@ -26,8 +26,8 @@ function setup() {
 	add_action( 'wp_update_nav_menu', __NAMESPACE__ . '\update_better_menu' );
 	add_action( 'wp_delete_nav_menu', __NAMESPACE__ . '\delete_better_menu', 10, 1 );
 	add_filter( 'pre_set_theme_mod_nav_menu_locations', __NAMESPACE__ . '\update_better_menus_location', 10, 2 );
-	add_action( 'wp_insert_post', __NAMESPACE__ . '\create_better_menu_item', 10, 3 );
-	add_action( 'save_post', __NAMESPACE__ . '\update_better_menu_item', 10, 2 );
+	add_action( 'wp_add_nav_menu_item', __NAMESPACE__ . '\create_better_menu_item', 10, 3 );
+	add_action( 'wp_update_nav_menu_item', __NAMESPACE__ . '\update_better_menu_item', 10, 3 );
 	add_action( 'after_delete_post', __NAMESPACE__ . '\delete_better_menu_item' );
 	add_action( 'added_term_relationship', __NAMESPACE__ . '\add_item_to_better_menu', 10, 2 );
 }
@@ -114,47 +114,33 @@ function update_better_menus_location( $value, $old_value ) {
 	return $value;
 }
 
-function create_better_menu_item( $post_id, $post, $update ) {
-	if ( 'nav_menu_item' !== $post->post_type ) {
-		return false;
-	}
+function create_better_menu_item( $menu_id, $menu_item_db_id, $args ) {
+	$better_menu_items = new Better_Menu_Items();
 
-	if ( $update ) {
-		return update_better_menu_item( $post_id, $post );
-	}
-
-	$menu_data = array_values( $_POST['menu-item'] );
-
-	if ( $menu_data ) {
-		$better_menu_items = new Better_Menu_Items();
-
-		$better_menu_items->insert([
-			'url'        => $menu_data[0]['menu-item-url'],
-			'label'      => $menu_data[0]['menu-item-title'],
-			'type'       => $menu_data[0]['menu-item-type'],
-			'object_id'  => intval( $menu_data[0]['menu-item-object-id'] ),
-			'post_id'    => intval( $post_id ),
-			'parent'     => intval( $menu_data[0]['menu-item-parent-id'] ),
-			'menu_order' => intval( $post->menu_order ),
-		]);
-	}
+	$test = $better_menu_items->insert([
+		'url'        => $args['menu-item-url'],
+		'label'      => $args['menu-item-title'],
+		'type'       => $args['menu-item-type'],
+		'object_id'  => intval( $args['menu-item-object-id'] ),
+		'post_id'    => intval( $menu_item_db_id ),
+		'parent'     => intval( $args['menu-item-parent-id'] ),
+		'menu_order' => intval( $args['menu-item-position'] ),
+	]);
 }
 
-function update_better_menu_item( $post_id, $post ) {
-	if ( 'nav_menu_item' === $post->post_type ) {
-		$better_menu_items = new Better_Menu_Items();
-		$item_id           = $better_menu_items->get_menu_item_by_wp_id( intval( $post_id ) );
+function update_better_menu_item( $menu_id, $menu_item_db_id, $args ) {
+	$better_menu_items = new Better_Menu_Items();
+	$item_id           = $better_menu_items->get_menu_item_by_wp_id( intval( $menu_item_db_id ) );
 
-		if ( $item_id ) {
-			$data = [
-				'url'        => isset( $_POST['menu-item-url'][ $post_id ] ) ? $_POST['menu-item-url'][ $post_id ] : '',
-				'label'      => isset( $_POST['menu-item-title'][ $post_id ] ) ? $_POST['menu-item-title'][ $post_id ] : '',
-				'parent'     => isset( $_POST['menu-item-parent-id'][ $post_id ] ) ? intval( $_POST['menu-item-parent-id'][ $post_id ] ) : 0,
-				'menu_order' => isset( $_POST['menu-item-position'][ $post_id ] ) ? intval( $_POST['menu-item-position'][ $post_id ] ) : 1,
-			];
+	$data = [
+		'url'        => $args['menu-item-url'],
+		'label'      => $args['menu-item-title'],
+		'parent'     => $args['menu-item-parent-id'],
+		'menu_order' => $args['menu-item-position'],
+	];
 
-			$better_menu_items->update_better_menu_item( $post_id, $data );
-		}
+	if ( $item_id ) {
+		$better_menu_items->update_better_menu_item( $menu_item_db_id, $data );
 	}
 }
 

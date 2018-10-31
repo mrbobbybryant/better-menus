@@ -7,8 +7,10 @@
 
 namespace BETTER_MENUS;
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class defines the table and queries used by the Better Menu Items Object type.
